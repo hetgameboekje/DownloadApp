@@ -3,6 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
+from music import download_playlist
 
 class MyApp(App):
     def build(self):
@@ -14,7 +15,8 @@ class MyApp(App):
         self.text_input2 = TextInput(multiline=False, hint_text='Enter text 2')
 
         # Create a button
-        button = Button(text='Run Code', on_press=self.run_code)
+        button = Button(text='Run Code')
+        button.bind(on_press=self.run_code)  # Bind the on_press event to the run_code method
 
         # Create a label for displaying the result
         self.result_label = Label(text='Result will be displayed here.')
@@ -29,14 +31,14 @@ class MyApp(App):
 
     def run_code(self, instance):
         # Get the text from the input fields
-        text1 = self.text_input1.text
-        text2 = self.text_input2.text
+        playlist_url = self.text_input1.text
+        download_dir = self.text_input2.text
+        
+        # Call the function from music.py with the user-entered variables
+        download_playlist(playlist_url, download_dir)
 
-        # Perform some processing or code execution here
-        # For example, concatenate the input texts
-        result = f'Success! Text 1: {text1}, Text 2: {text2}'
-
-        # Display the result in the label
+        # Update the result label
+        result = f'Success! Playlist URL: {playlist_url}, Download Dir: {download_dir}'
         self.result_label.text = result
 
 if __name__ == '__main__':
